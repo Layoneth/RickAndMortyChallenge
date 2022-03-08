@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:graphql/client.dart';
 import 'package:rick_morty_challenge/core/constants.dart';
 import 'package:rick_morty_challenge/data/models/character_model.dart';
@@ -20,10 +19,13 @@ class CharacterRemoteDataSourceImp implements CharacterRemoteDataSource {
       final QueryOptions options = QueryOptions(
         document: gql(
           '''
-            query getCharacters{
-              characters(page: $page, ) {
+            query GetCharacters {
+              characters {
                 info {
                   count
+                  pages
+                  next
+                  prev
                 }
                 results {
                   id
@@ -32,19 +34,9 @@ class CharacterRemoteDataSourceImp implements CharacterRemoteDataSource {
                   species
                   type
                   gender
-                  origin
-                  location
                   image
-                  episodes
-                  url
                   created
                 }
-              }
-              location(id: 1) {
-                id
-              }
-              episodesByIds(ids: [1, 2]) {
-                id
               }
             }
           ''',
@@ -58,10 +50,10 @@ class CharacterRemoteDataSourceImp implements CharacterRemoteDataSource {
         return [];
       }
 
-      final List<Character> characts =
-        qlResponse.data!['characters']['results'] as List<Character>;
+      final ListCharacters characts =
+        ListCharacters.fromJson(qlResponse.data!['characters']);
 
-      return characts;
+      return characts.results;
     } catch (e) {
       print(e);
       return [];

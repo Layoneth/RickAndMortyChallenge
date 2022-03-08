@@ -6,29 +6,23 @@ class Character {
   Character({
     required this.id,
     required this.name,
-    required this.status,
-    required this.species,
-    required this.type,
-    required this.gender,
-    required this.origin,
-    required this.location,
-    required this.image,
-    required this.episode,
-    required this.url,
+    this.status,
+    this.species,
+    this.type,
+    this.gender,
+    this.image,
+    this.url,
     required this.created,
   });
 
-  final int id;
+  final String id;
   final String name;
-  final String status;
-  final String species;
-  final String type;
-  final String gender;
-  final Location origin;
-  final Location location;
-  final String image;
-  final List<String> episode;
-  final String url;
+  final String? status;
+  final String? species;
+  final String? type;
+  final String? gender;
+  final String? image;
+  final String? url;
   final DateTime created;
 
   factory Character.fromJson(String str) => Character.fromMap(json.decode(str));
@@ -42,10 +36,7 @@ class Character {
     species: json["species"],
     type: json["type"],
     gender: json["gender"],
-    origin: Location.fromMap(json["origin"]),
-    location: Location.fromMap(json["location"]),
     image: json["image"],
-    episode: List<String>.from(json["episode"].map((x) => x)),
     url: json["url"],
     created: DateTime.parse(json["created"]),
   );
@@ -57,10 +48,7 @@ class Character {
     "species": species,
     "type": type,
     "gender": gender,
-    "origin": origin.toMap(),
-    "location": location.toMap(),
     "image": image,
-    "episode": List<dynamic>.from(episode.map((x) => x)),
     "url": url,
     "created": created.toIso8601String(),
   };
@@ -102,7 +90,7 @@ class ListCharacters {
   factory ListCharacters.fromJson(Map<String, dynamic> json) => ListCharacters(
     info: Info.fromJson(json["info"]),
     results: List<Character>.from(
-      json["results"].map((x) => Character.fromJson(x))),
+      json["results"].map((x) => Character.fromMap(x))),
   );
 
   Map<String, dynamic> toJson() => {

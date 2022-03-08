@@ -36,7 +36,7 @@ class HomePage extends StatelessWidget {
                       physics: const ClampingScrollPhysics(),
                       itemCount: characters.length,
                       itemBuilder: (BuildContext context, int index) {
-                        final gameModel = characters[index];
+                        final charactModel = characters[index];
               
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 8.0),
@@ -51,7 +51,7 @@ class HomePage extends StatelessWidget {
                               children: [
                                 // Flexible(
                                 //   child: ScreenshotImage(
-                                //     gameId: gameModel.id,
+                                //     gameId: gameModel.id,º
                                 //     width: 140,
                                 //   )
                                 // ),

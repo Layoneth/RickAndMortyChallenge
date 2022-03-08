@@ -2,14 +2,14 @@ class Info {
   Info({
     required this.count,
     required this.pages,
-    this.next = '',
-    this.prev = '',
+    this.next,
+    this.prev,
   });
 
   final int count;
-  final int pages;
-  final String? next;
-  final String? prev;
+  final int? pages;
+  final int? next;
+  final int? prev;
 
   factory Info.fromJson(Map<String, dynamic> json) => Info(
     count: json["count"],

@@ -1,14 +1,14 @@
 import 'package:graphql/client.dart';
 
 class Constants {
-  static const baseURL = "https://rickandmortyapi.com/api/";
+  static const baseURL = "https://rickandmortyapi.com/graphql/";
   static const characterEndpoint = "character";
   static const locationEndpoint = "location";
   static const episodeEndpoint = "episode";
 
-  static GraphQLClient getGraphQLClient() {
+  static GraphQLClient getGraphQLClient({String? param}) {
     final Link _link = HttpLink(
-      baseURL,
+      baseURL + (param ?? ''),
     );
 
     return GraphQLClient(
