@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:floor/floor.dart';
 import 'package:rick_morty_challenge/data/models/info_model.dart';
 
+@entity
 class Character {
   Character({
     required this.id,
@@ -14,6 +16,7 @@ class Character {
     required this.created,
   });
 
+  @primaryKey
   final String id;
   final String name;
   final String? status;
@@ -21,7 +24,7 @@ class Character {
   final String? type;
   final String? gender;
   final String? image;
-  final DateTime created;
+  final String? created;
 
   factory Character.fromJson(String str) => Character.fromMap(json.decode(str));
 
@@ -35,7 +38,7 @@ class Character {
     type: json["type"],
     gender: json["gender"],
     image: json["image"],
-    created: DateTime.parse(json["created"]),
+    created: json["created"],
   );
 
   Map<String, dynamic> toMap() => {
@@ -46,7 +49,7 @@ class Character {
     "type": type,
     "gender": gender,
     "image": image,
-    "created": created.toIso8601String(),
+    "created": created,
   };
 }
 
