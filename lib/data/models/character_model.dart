@@ -11,7 +11,6 @@ class Character {
     this.type,
     this.gender,
     this.image,
-    this.url,
     required this.created,
   });
 
@@ -22,7 +21,6 @@ class Character {
   final String? type;
   final String? gender;
   final String? image;
-  final String? url;
   final DateTime created;
 
   factory Character.fromJson(String str) => Character.fromMap(json.decode(str));
@@ -37,7 +35,6 @@ class Character {
     type: json["type"],
     gender: json["gender"],
     image: json["image"],
-    url: json["url"],
     created: DateTime.parse(json["created"]),
   );
 
@@ -49,7 +46,6 @@ class Character {
     "type": type,
     "gender": gender,
     "image": image,
-    "url": url,
     "created": created.toIso8601String(),
   };
 }

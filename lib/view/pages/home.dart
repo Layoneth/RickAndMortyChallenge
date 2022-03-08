@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rick_morty_challenge/view/logic/get_characeter.cubit/get_character_cubit.dart';
+import 'package:rick_morty_challenge/view/pages/character_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -8,6 +9,9 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Welcome to Layos test'),
+      ),
       body: BlocBuilder<GetCharacterCubit, GetCharacterState>(
         builder: (context, state) {
           if (state is GetCharacterInitial) {
@@ -29,34 +33,42 @@ class HomePage extends StatelessWidget {
                 physics: const AlwaysScrollableScrollPhysics(),
                 child: Column(
                   children: [
-                    const SizedBox(height: 32.0,),
-                    const Text('Welcome to Layos test!'),
-                    ListView.builder(
+                    const SizedBox(height: 16.0,),
+                    GridView.builder(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                      ),
                       shrinkWrap: true,
                       physics: const ClampingScrollPhysics(),
                       itemCount: characters.length,
                       itemBuilder: (BuildContext context, int index) {
                         final charactModel = characters[index];
               
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0),
-                          child: InkWell(
-                            // onTap: () {
-                            //   Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(builder: (context) => GameDetailPage(gameModel: gameModel,)),
-                            //   );
-                            // },
-                            child: Row(
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => CharacterDetailPage(character: charactModel,)),
+                            );
+                          },
+                          child: Hero(
+                            tag: charactModel.id,
+                            child: Column(
                               children: [
-                                // Flexible(
-                                //   child: ScreenshotImage(
-                                //     gameId: gameModel.id,º
-                                //     width: 140,
-                                //   )
-                                // ),
+                                charactModel.image != null
+                                ? Expanded(
+                                  child: Image.network(
+                                      charactModel.image!,
+                                      width: 60,
+                                      height: 60,
+                                    ),
+                                )
+                                : const SizedBox(width: 60.0, height: 60.0,),
                                 const SizedBox(width: 8.0,),
-                                Expanded(child: Text(characters[index].name))
+                                Flexible(child: Text('Name: ' + charactModel.name)),
+                                charactModel.type != null
+                                ? Flexible(child: Text('Type: ' + charactModel.type!))
+                                : const SizedBox(),
                               ],
                             ),
                           ),
