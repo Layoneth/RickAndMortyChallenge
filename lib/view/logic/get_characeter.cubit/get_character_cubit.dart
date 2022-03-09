@@ -14,8 +14,11 @@ class GetCharacterCubit extends Cubit<GetCharacterState> {
   Future<void> getCharacters({bool scroll = false}) async {
     try {
       emit(GetCharacterLoading());
-      charsSaved += await getCharactersUserCase.getCharacters(page: page);
-      if (scroll || page == 1) page++;
+      final newList = await getCharactersUserCase.getCharacters(page: page);
+      if (newList.isNotEmpty) {
+        charsSaved.addAll(newList);
+      }
+      if (scroll || page == 1 || charsSaved.isNotEmpty) page++;
       emit(GetCharacterLoaded(characters: charsSaved));
     } catch (e) {
       emit(GetCharacterError(e.toString()));

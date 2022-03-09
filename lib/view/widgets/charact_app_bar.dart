@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rick_morty_challenge/core/constants.dart';
+import 'package:rick_morty_challenge/core/styles.dart';
 import 'package:rick_morty_challenge/data/models/character_model.dart';
 
 class AppBarCharacter extends StatelessWidget {
@@ -13,7 +14,10 @@ class AppBarCharacter extends StatelessWidget {
     expandedHeight: 200,
     flexibleSpace: FlexibleSpaceBar(
       centerTitle: true,
-      title: Text(character.name),
+      title: Text(
+        character.name,
+        style: TextFontStyle.homeText.copyWith(color: Colors.black),
+      ),
       background: FadeInImage(
         placeholder: const AssetImage(Constants.placeholderUrl),
         image: NetworkImage(character.image!),
