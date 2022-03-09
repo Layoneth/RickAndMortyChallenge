@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rick_morty_challenge/core/constants.dart';
+import 'package:rick_morty_challenge/core/utils.dart';
 import 'package:rick_morty_challenge/data/models/character_model.dart';
 
 class BodyDetailCharacter extends StatelessWidget {
@@ -9,13 +10,12 @@ class BodyDetailCharacter extends StatelessWidget {
   @override
   Widget build(BuildContext context) => SliverList(
     delegate: SliverChildListDelegate([
-      Padding(
+      Container(
+        color: Utils.getColorFromSpecie(character),
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: <Widget>[
-            MinInformation(movie: character),
-            const SizedBox(height: 8.0,),
-            Text(character.name)
+            MinInformation(character: character),
           ],
         ),
       )
@@ -23,22 +23,22 @@ class BodyDetailCharacter extends StatelessWidget {
 }
 
 class MinInformation extends StatelessWidget {
-  final Character movie;
-  const MinInformation({Key? key, required this.movie}) : super(key: key);
+  final Character character;
+  const MinInformation({Key? key, required this.character}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Row(
     children: <Widget>[
       Hero(
-        tag: movie.id,
-        child: SizedBox(
-          height: 230,
-          width: 150,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20.0),
+        tag: character.id,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(40.0),
+          child: SizedBox(
+            height: 230,
+            width: 150,
             child: FadeInImage(
               placeholder: const AssetImage(Constants.placeholderUrl), 
-              image: NetworkImage(movie.image!),
+              image: NetworkImage(character.image!),
               imageErrorBuilder: (_, object, stack) {
                 return Image.asset(Constants.placeholderUrl);
               },
@@ -52,13 +52,30 @@ class MinInformation extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Row(children: <Widget>[
-            const Icon(Icons.star_border),
-            Text(movie.created.toString())
+            const Icon(Icons.calendar_month),
+            Text(character.created!.split('T').elementAt(0))
           ],),
           Row(children: <Widget>[
-            const Icon(Icons.trending_up),
-            Text(movie.species!)
-          ],)
+            Icon(
+              Utils.getIconFromSpecie(character),
+              color: Utils.getColorFromGender(character),
+            ),
+            Text(character.species!)
+          ],),
+          Row(children: <Widget>[
+            Icon(
+              Utils.getIconFromGender(character),
+              color: Utils.getColorFromGender(character),
+            ),
+            Text(character.gender!)
+          ],),
+          Row(children: <Widget>[
+            Icon(
+              Utils.getIconFromStatus(character),
+              color: Utils.getColorFromStatus(character),
+            ),
+            Text(character.status!)
+          ],),
         ],
       )
     ],
