@@ -15,6 +15,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late final ScrollController _scrollController;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -31,7 +32,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    print(context.read<GetCharacterCubit>().page);
+
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: const Text('Welcome to Layos test'),
       ),
@@ -46,10 +50,10 @@ class _HomePageState extends State<HomePage> {
                   CircularProgressIndicator(),
                 ],
             ));
-          } else if (state is GetCharacterLoading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is GetCharacterLoaded) {
-            final characters = state.characters;
+          } else if (state is GetCharacterLoaded || state is GetCharacterLoading) {
+            
+            final characters = context.read<GetCharacterCubit>().charsSaved;
+
             if (characters.isNotEmpty) {
               return SingleChildScrollView(
                 controller: _scrollController,
@@ -157,6 +161,10 @@ class _HomePageState extends State<HomePage> {
                         );
                       },
                     ),
+                    const SizedBox(height: 40.0,),
+                    state is GetCharacterLoading
+                    ? const Center(child: CircularProgressIndicator())
+                    : const SizedBox(),
                   ],
                 ),
               );
