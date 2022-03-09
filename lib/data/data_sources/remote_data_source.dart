@@ -3,24 +3,21 @@ import 'package:rick_morty_challenge/core/constants.dart';
 import 'package:rick_morty_challenge/data/models/character_model.dart';
 
 abstract class CharacterRemoteDataSource {
-  Future<List<Character>> getCharacters();
+  Future<List<Character>> getCharacters({required int page});
 }
 
 class CharacterRemoteDataSourceImp implements CharacterRemoteDataSource {
-  // final Dio dio;
   CharacterRemoteDataSourceImp();
 
   @override
-  Future<List<Character>> getCharacters({int page = 1}) async {
+  Future<List<Character>> getCharacters({required int page}) async {
     try {
-      // var response =
-      //   await dio.get('${Constants.baseURL}${Constants.characterEndpoint}');
 
       final QueryOptions options = QueryOptions(
         document: gql(
           '''
             query GetCharacters {
-              characters {
+              characters(page: $page) {
                 info {
                   count
                   pages
@@ -51,7 +48,7 @@ class CharacterRemoteDataSourceImp implements CharacterRemoteDataSource {
       }
 
       final ListCharacters characts =
-        ListCharacters.fromJson(qlResponse.data!['characters']);
+        ListCharacters.fromJson(qlResponse.data!['characters'], page);
 
       return characts.results;
     } catch (e) {

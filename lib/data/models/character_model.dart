@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:floor/floor.dart';
 import 'package:rick_morty_challenge/data/models/info_model.dart';
 
+@entity
 class Character {
   Character({
     required this.id,
@@ -12,8 +14,10 @@ class Character {
     this.gender,
     this.image,
     required this.created,
+    required this.page
   });
 
+  @primaryKey
   final String id;
   final String name;
   final String? status;
@@ -21,13 +25,14 @@ class Character {
   final String? type;
   final String? gender;
   final String? image;
-  final DateTime created;
+  final String? created;
+  final int page;
 
-  factory Character.fromJson(String str) => Character.fromMap(json.decode(str));
+  factory Character.fromJson(String str, int page) => Character.fromMap(json.decode(str), page);
 
   String toJson() => json.encode(toMap());
 
-  factory Character.fromMap(Map<String, dynamic> json) => Character(
+  factory Character.fromMap(Map<String, dynamic> json, int page) => Character(
     id: json["id"],
     name: json["name"],
     status: json["status"],
@@ -35,7 +40,8 @@ class Character {
     type: json["type"],
     gender: json["gender"],
     image: json["image"],
-    created: DateTime.parse(json["created"]),
+    created: json["created"],
+    page: page
   );
 
   Map<String, dynamic> toMap() => {
@@ -46,7 +52,7 @@ class Character {
     "type": type,
     "gender": gender,
     "image": image,
-    "created": created.toIso8601String(),
+    "created": created,
   };
 }
 
@@ -83,10 +89,10 @@ class ListCharacters {
   final Info info;
   final List<Character> results;
 
-  factory ListCharacters.fromJson(Map<String, dynamic> json) => ListCharacters(
+  factory ListCharacters.fromJson(Map<String, dynamic> json, int page) => ListCharacters(
     info: Info.fromJson(json["info"]),
     results: List<Character>.from(
-      json["results"].map((x) => Character.fromMap(x))),
+      json["results"].map((x) => Character.fromMap(x, page))),
   );
 
   Map<String, dynamic> toJson() => {

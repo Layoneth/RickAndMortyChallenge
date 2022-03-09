@@ -15,8 +15,11 @@ class AppBarCharacter extends StatelessWidget {
       centerTitle: true,
       title: Text(character.name),
       background: FadeInImage(
-        placeholder: const NetworkImage(Constants.placeholderUrl),
+        placeholder: const AssetImage(Constants.placeholderUrl),
         image: NetworkImage(character.image!),
+        imageErrorBuilder: (_, object, stack) {
+          return Image.asset(Constants.placeholderUrl);
+        },
         fit: BoxFit.cover),
     ),
   );

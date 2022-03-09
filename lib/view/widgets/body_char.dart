@@ -37,8 +37,11 @@ class MinInformation extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20.0),
             child: FadeInImage(
-              placeholder: const NetworkImage(Constants.placeholderUrl), 
+              placeholder: const AssetImage(Constants.placeholderUrl), 
               image: NetworkImage(movie.image!),
+              imageErrorBuilder: (_, object, stack) {
+                return Image.asset(Constants.placeholderUrl);
+              },
             ),
           ),
         ),
