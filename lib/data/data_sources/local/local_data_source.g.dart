@@ -82,7 +82,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Character` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `status` TEXT, `species` TEXT, `type` TEXT, `gender` TEXT, `image` TEXT, `created` TEXT, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `Character` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `status` TEXT, `species` TEXT, `type` TEXT, `gender` TEXT, `image` TEXT, `created` TEXT, `page` INTEGER NOT NULL, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -110,7 +110,8 @@ class _$CharactersDao extends CharactersDao {
                   'type': item.type,
                   'gender': item.gender,
                   'image': item.image,
-                  'created': item.created
+                  'created': item.created,
+                  'page': item.page
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -122,8 +123,8 @@ class _$CharactersDao extends CharactersDao {
   final InsertionAdapter<Character> _characterInsertionAdapter;
 
   @override
-  Future<List<Character>> getCharacters() async {
-    return _queryAdapter.queryList('SELECT * FROM Character',
+  Future<List<Character>> getCharacters(int page) async {
+    return _queryAdapter.queryList('SELECT * FROM Character WHERE page = ?1',
         mapper: (Map<String, Object?> row) => Character(
             id: row['id'] as String,
             name: row['name'] as String,
@@ -132,7 +133,9 @@ class _$CharactersDao extends CharactersDao {
             type: row['type'] as String?,
             gender: row['gender'] as String?,
             image: row['image'] as String?,
-            created: row['created'] as String?));
+            created: row['created'] as String?,
+            page: row['page'] as int),
+        arguments: [page]);
   }
 
   @override

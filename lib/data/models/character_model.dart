@@ -14,6 +14,7 @@ class Character {
     this.gender,
     this.image,
     required this.created,
+    required this.page
   });
 
   @primaryKey
@@ -25,12 +26,13 @@ class Character {
   final String? gender;
   final String? image;
   final String? created;
+  final int page;
 
-  factory Character.fromJson(String str) => Character.fromMap(json.decode(str));
+  factory Character.fromJson(String str, int page) => Character.fromMap(json.decode(str), page);
 
   String toJson() => json.encode(toMap());
 
-  factory Character.fromMap(Map<String, dynamic> json) => Character(
+  factory Character.fromMap(Map<String, dynamic> json, int page) => Character(
     id: json["id"],
     name: json["name"],
     status: json["status"],
@@ -39,6 +41,7 @@ class Character {
     gender: json["gender"],
     image: json["image"],
     created: json["created"],
+    page: page
   );
 
   Map<String, dynamic> toMap() => {
@@ -86,10 +89,10 @@ class ListCharacters {
   final Info info;
   final List<Character> results;
 
-  factory ListCharacters.fromJson(Map<String, dynamic> json) => ListCharacters(
+  factory ListCharacters.fromJson(Map<String, dynamic> json, int page) => ListCharacters(
     info: Info.fromJson(json["info"]),
     results: List<Character>.from(
-      json["results"].map((x) => Character.fromMap(x))),
+      json["results"].map((x) => Character.fromMap(x, page))),
   );
 
   Map<String, dynamic> toJson() => {

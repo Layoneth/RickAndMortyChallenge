@@ -5,9 +5,9 @@ class GetCharactersUserCase {
   final CharacterRepository characterRepository;
   GetCharactersUserCase(this.characterRepository);
 
-  Future<List<Character>> getCharacters() async {
+  Future<List<Character>> getCharacters({required int page}) async {
     try {
-      final character = await characterRepository.getCharacters();
+      final character = await characterRepository.getCharacters(page: page);
       return character;
     } catch (e) {
       print(e);

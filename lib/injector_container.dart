@@ -20,7 +20,7 @@ Future<void> initCharacters() async {
   sl.registerLazySingleton(() => GetCharactersUserCase(sl()));
 
   // Movie Repository
-  sl.registerLazySingleton<CharacterRepository>(() => CharacterRepositoryImpl(sl()));
+  sl.registerLazySingleton<CharacterRepository>(() => CharacterRepositoryImpl(sl(), sl()));
 
   // Data sources
   // Remote

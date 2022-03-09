@@ -7,7 +7,7 @@ abstract class CharactersDao {
   @insert
   Future<void> insertCharacters(List<Character> games);
 
-  @Query('SELECT * FROM Character')
-  Future<List<Character>> getCharacters();
+  @Query('SELECT * FROM Character WHERE page = :page')
+  Future<List<Character>> getCharacters(int page);
 
 }

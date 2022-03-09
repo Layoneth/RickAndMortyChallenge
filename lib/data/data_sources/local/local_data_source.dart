@@ -1,4 +1,6 @@
 // required package imports
+import 'dart:async';
+
 import 'package:floor/floor.dart';
 import 'package:rick_morty_challenge/data/models/character_model.dart';
 import 'package:rick_morty_challenge/data/data_sources/local/character_dao.dart';
