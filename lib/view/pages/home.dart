@@ -32,7 +32,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    print(context.read<GetCharacterCubit>().page);
 
     return Scaffold(
       key: _scaffoldKey,
