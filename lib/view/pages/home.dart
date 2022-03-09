@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rick_morty_challenge/core/constants.dart';
+import 'package:rick_morty_challenge/core/utils.dart';
 import 'package:rick_morty_challenge/view/logic/get_characeter.cubit/get_character_cubit.dart';
 import 'package:rick_morty_challenge/view/pages/character_page.dart';
+import 'package:rick_morty_challenge/core/styles.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -54,12 +56,11 @@ class _HomePageState extends State<HomePage> {
                 physics: const AlwaysScrollableScrollPhysics(),
                 child: Column(
                   children: [
-                    const SizedBox(
-                      height: 16.0,
-                    ),
+                    const SizedBox(height: 16.0,),
                     GridView.builder(
-                      gridDelegate:const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisExtent: 280
                       ),
                       shrinkWrap: true,
                       physics: const ClampingScrollPhysics(),
@@ -77,33 +78,80 @@ class _HomePageState extends State<HomePage> {
                                 )),
                             );
                           },
-                          child: Hero(
-                            tag: charactModel.id,
-                            child: Column(
-                              children: [
-                              charactModel.image != null
-                              ? Expanded(
-                                  child: Image.network(
-                                    charactModel.image!,
-                                    width: 60,
-                                    height: 60,
-                                    errorBuilder: (_, object, stack) {
-                                      return Image.asset(Constants.placeholderUrl);
-                                    },
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(
+                              vertical: 4.0,
+                              horizontal: 8.0
+                            ),
+                            padding: const EdgeInsets.only(
+                              bottom: 8.0,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Utils.getColorFromSpecie(charactModel),
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                width: 1,
+                                color: Colors.black,
+                              )
+                            ),
+                            child: Hero(
+                              tag: charactModel.id,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  charactModel.image != null
+                                  ? Expanded(
+                                    child: Align(
+                                      alignment: Alignment.topCenter,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(8.0),
+                                        child: Image.network(
+                                          charactModel.image!,
+                                          fit: BoxFit.fitWidth,
+                                          errorBuilder: (_, object, stack) {
+                                            return Image.asset(Constants.placeholderUrl);
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                  : const SizedBox(
+                                      width: 60.0,
+                                      height: 60.0,
+                                    ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Name: ' + charactModel.name,
+                                          style: TextFontStyle.homeText,
+                                        ),
+                                        charactModel.species != null || charactModel.type!.isNotEmpty
+                                        ? Text(
+                                          'Specie: ' + charactModel.species!,
+                                          style: TextFontStyle.homeText,
+                                        ) : const SizedBox(),
+                                        charactModel.gender != null || charactModel.gender!.isNotEmpty
+                                        ? Text(
+                                          'Gender: ' + charactModel.gender!,
+                                          style: TextFontStyle.homeText,
+                                        ) : const SizedBox(),
+                                        charactModel.type != null || charactModel.type!.isNotEmpty
+                                        ? Text(
+                                          'Type: ' + charactModel.type!,
+                                          style: TextFontStyle.homeText,
+                                        )
+                                        : const SizedBox(),
+                                      ],
+                                    ),
                                   ),
-                                )
-                              : const SizedBox(
-                                  width: 60.0,
-                                  height: 60.0,
-                                ),
-                              const SizedBox(width: 8.0,),
-                              Flexible(
-                                child: Text('Name: ' + charactModel.name)),
-                              charactModel.type != null
-                              ? Flexible(
-                                child: Text('Type: ' + charactModel.type!))
-                              : const SizedBox(),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         );
@@ -116,9 +164,9 @@ class _HomePageState extends State<HomePage> {
               return const SingleChildScrollView(
                 physics: AlwaysScrollableScrollPhysics(),
                 child: SizedBox(
-                    height: 500,
-                    child: Center(
-                        child: Text('There are no characters here!.'))),
+                  height: 500,
+                  child: Center(
+                    child: Text('There are no characters here!.'))),
               );
             }
           } else if (state is GetCharacterError) {

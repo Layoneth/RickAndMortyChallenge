@@ -29,10 +29,18 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  # State Managment
   flutter_bloc: ^8.0.1
   equatable: ^2.0.3
+
+  # DI
   get_it: ^7.2.0
+
+  # Graphql
   graphql: ^5.0.1
+
+  # Data Base
   floor: ^1.2.0
 
   # The following adds the Cupertino Icons font to your application.

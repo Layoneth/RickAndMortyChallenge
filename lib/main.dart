@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Material App',
+      debugShowCheckedModeBanner: false,
       home: BlocProvider(
         create: (_) => di.sl<GetCharacterCubit>(),
         child: const HomePage()

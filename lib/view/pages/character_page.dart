@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rick_morty_challenge/core/utils.dart';
 import 'package:rick_morty_challenge/data/models/character_model.dart';
 import 'package:rick_morty_challenge/view/widgets/body_char.dart';
 import 'package:rick_morty_challenge/view/widgets/charact_app_bar.dart';
@@ -10,6 +11,7 @@ class CharacterDetailPage extends StatelessWidget {
    @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Utils.getColorFromSpecie(character),
       body: CustomScrollView(
         slivers: <Widget>[
           AppBarCharacter(character: character),
